@@ -1,0 +1,15 @@
+{
+  "name": "bukowskis-market-helper",
+  "version": "1.0.0",
+  "author": "Simon Fransson",
+  "license": "",
+  "website": "http://dessibelle.se",
+  "devDependencies": {
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt": "~0.4.1",
+    "grunt-contrib-less": "~0.7.0"
+  }
+}
