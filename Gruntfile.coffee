@@ -7,7 +7,7 @@ module.exports = (grunt) ->
         coffee:
             main:
                 files:
-                    'helper.js': ['src/coffee/helper.coffee']
+                    'src/js/helper.js': ['src/coffee/helper.coffee']
 
         less:
             main:
@@ -15,22 +15,32 @@ module.exports = (grunt) ->
                     paths: ["less"],
                     yuicompress: true
                 files:
-                    "helper.css" : "src/less/helper.less"
+                    "css/bukowskis-helper.min.css" : "src/less/helper.less"
+
+        uglify:
+            options:
+                banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+                        ' * Copyright (c) <%= grunt.template.today("yyyy") %> */\n'
+            main:
+                files: [
+                    'js/bukowskis-helper.min.js': ['src/js/jquery-2.0.3.js',
+                    'src/js/helper.js'],
+                ]
 
         watch:
             watch:
                 files: ['src/coffee/*.coffee', 'src/less/*.less'],
                 tasks: ['default'],
-                # options:
-                #     nospawn: true
+                options:
+                    nospawn: true
 
 
     grunt.loadNpmTasks('grunt-contrib-less');
     grunt.loadNpmTasks('grunt-contrib-coffee');
     grunt.loadNpmTasks('grunt-contrib-watch');
     # grunt.loadNpmTasks('grunt-contrib-concat');
-    # grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
-    grunt.registerTask('default', ['less', 'coffee'])
+    grunt.registerTask('default', ['less', 'coffee', 'uglify'])
     # grunt.registerTask('dist', ['default', 'concat', 'uglify'])
 
