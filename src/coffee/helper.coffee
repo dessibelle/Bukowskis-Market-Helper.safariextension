@@ -72,8 +72,30 @@ $ ->
     add_css_classes = (selector) ->
         $(selector).addClass "bm-helper-price"
 
+
+    monitor_item_bid_form = (form) ->
+        $(form).find('#bid_amount').keyup ->
+            amount = $(this).val()
+            text_nodes = $(form).find(":not(iframe)").addBack().contents().filter( ->
+                return this.nodeType == 3 && $.trim(this.nodeValue) != "" && $(this.previousSibling).attr('id') == 'bid_amount'
+            )
+            currency = $.trim $(text_nodes).first().text()
+            total_elem = $(form).find '.bm-helper-bid-total'
+
+            if !total_elem || !total_elem.length
+                button = $(form).find 'input.button-simple'
+                button.after ' <span class="bm-helper-bid-total bm-helper-price"></span>'
+                total_elem = $(form).find '.bm-helper-bid-total'
+
+            if parseInt(amount) > 0
+                total = calculate_total amount, currency
+                total_elem.text number_with_separator(total) + " " + currency
+            else
+                total_elem.text ""
+
     selector = $ '#item-auction-info-bid strong, .item-small-bid strong, td.amount-col'
+    bid_input_selector = $ '#item-bid-form'
 
     add_css_classes selector
     hover_prices selector
-
+    monitor_item_bid_form bid_input_selector

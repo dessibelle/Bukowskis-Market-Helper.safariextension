@@ -1,6 +1,6 @@
 (function() {
   $(function() {
-    var add_css_classes, calculate_total, comission_rate, get_currency, get_price, hammer_fee, hide_price_info, hover_prices, number_with_separator, selector, show_price_info;
+    var add_css_classes, bid_input_selector, calculate_total, comission_rate, get_currency, get_price, hammer_fee, hide_price_info, hover_prices, monitor_item_bid_form, number_with_separator, selector, show_price_info;
     comission_rate = 1.225;
     hammer_fee = {
       SEK: 50,
@@ -66,9 +66,33 @@
     add_css_classes = function(selector) {
       return $(selector).addClass("bm-helper-price");
     };
+    monitor_item_bid_form = function(form) {
+      return $(form).find('#bid_amount').keyup(function() {
+        var amount, button, currency, text_nodes, total, total_elem;
+        amount = $(this).val();
+        text_nodes = $(form).find(":not(iframe)").addBack().contents().filter(function() {
+          return this.nodeType === 3 && $.trim(this.nodeValue) !== "" && $(this.previousSibling).attr('id') === 'bid_amount';
+        });
+        currency = $.trim($(text_nodes).first().text());
+        total_elem = $(form).find('.bm-helper-bid-total');
+        if (!total_elem || !total_elem.length) {
+          button = $(form).find('input.button-simple');
+          button.after(' <span class="bm-helper-bid-total bm-helper-price"></span>');
+          total_elem = $(form).find('.bm-helper-bid-total');
+        }
+        if (parseInt(amount) > 0) {
+          total = calculate_total(amount, currency);
+          return total_elem.text(number_with_separator(total) + " " + currency);
+        } else {
+          return total_elem.text("");
+        }
+      });
+    };
     selector = $('#item-auction-info-bid strong, .item-small-bid strong, td.amount-col');
+    bid_input_selector = $('#item-bid-form');
     add_css_classes(selector);
-    return hover_prices(selector);
+    hover_prices(selector);
+    return monitor_item_bid_form(bid_input_selector);
   });
 
 }).call(this);
