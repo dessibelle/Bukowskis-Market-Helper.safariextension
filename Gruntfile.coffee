@@ -15,7 +15,7 @@ module.exports = (grunt) ->
                     paths: ["less"],
                     yuicompress: true
                 files:
-                    "css/bukowskis-helper.min.css" : "src/less/helper.less"
+                    "Bukowskis Market Helper.safariextension/css/bukowskis-helper.min.css" : "src/less/helper.less"
 
         uglify:
             options:
@@ -23,7 +23,7 @@ module.exports = (grunt) ->
                         ' * Copyright (c) <%= grunt.template.today("yyyy") %> */\n'
             main:
                 files: [
-                    'js/bukowskis-helper.min.js': ['src/js/jquery-2.0.3.js',
+                    'Bukowskis Market Helper.safariextension/js/bukowskis-helper.min.js': ['src/js/jquery-2.0.3.js',
                     'src/js/helper.js'],
                 ]
 
